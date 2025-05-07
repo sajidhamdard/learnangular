@@ -172,3 +172,14 @@ If parent updates `[value]`, this **auto-updates** and triggers change detection
 # ✅ **In one line (easy to memorize)**
 
 > **`input()` = new Angular 16 functional alternative to `@Input()` — returns Signal, works in Standalone Components**
+
+---
+
+Required inputs
+
+
+@Component({/*...*/})
+export class CustomSlider {
+  // Declare a required input named value. Returns an `InputSignal<number>`.
+  value = input.required<number>();
+}
