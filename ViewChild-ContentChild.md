@@ -188,3 +188,85 @@ export class ParentComponent implements AfterContentInit {
 > *"If I need something inside my template → ViewChild/ViewChildren.
 > If I need projected content → ContentChild/ContentChildren.
 > I use AfterViewInit/AfterContentInit respectively to safely access them."*
+
+---
+
+# 🧐 **Why would we ever want to get a child component/template and call its method?**
+
+Because **sometimes the parent** wants to:
+
+| **Reason**                              | **Example (real-life)**                                                  | **What we do**                          |
+| --------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------- |
+| 🔹 **Trigger an action in child**       | Parent has a **Reset button** → Resets a child form component            | Call `child.resetForm()` method         |
+| 🔹 **Read value from child**            | Child component holds some **input** or **state** (e.g., selected items) | Get `child.selectedItems`               |
+| 🔹 **Manipulate DOM directly** *(rare)* | Focus an input box in child component                                    | Call `childInput.nativeElement.focus()` |
+| 🔹 **Coordinate multiple children**     | Toggle expand/collapse of all sections                                   | Loop children and call `child.toggle()` |
+| 🔹 **Validate child components**        | Parent has a **multi-step form** → Validate each child step              | Call `child.isValid()` method           |
+| 🔹 **Dynamic interaction**              | Child shows/hides data → Parent wants to know/show status                | Read or set child property              |
+
+---
+
+# 🚀 **Real Angular Example (Practical)**
+
+### Scenario
+
+You have a **ParentComponent** that shows a **"Reset All Forms"** button.
+Inside parent, there are **multiple child form components**.
+
+## 🛠️ **ChildComponent (Reusable Form)**
+
+```ts
+@Component({
+  selector: 'app-child-form',
+  template: `<form> ... </form>`
+})
+export class ChildFormComponent {
+  resetForm() {
+    // logic to reset form
+    console.log('Form reset!');
+  }
+}
+```
+
+## 🛠️ **ParentComponent**
+
+```ts
+@Component({
+  selector: 'app-parent',
+  template: `
+    <app-child-form></app-child-form>
+    <app-child-form></app-child-form>
+
+    <button (click)="resetAll()">Reset All</button>
+  `
+})
+export class ParentComponent implements AfterViewInit {
+  
+  @ViewChildren(ChildFormComponent) forms!: QueryList<ChildFormComponent>;
+
+  resetAll() {
+    this.forms.forEach(form => form.resetForm());  // trigger method of each child
+  }
+}
+```
+
+---
+
+# 🥇 **Key takeaway (for interviews)**
+
+✅ **You don’t always need to access child** —
+But **when parent controls or coordinates children**, **you must access child** → That’s why **ViewChild/ContentChild** exists.
+
+> *"We use ViewChild/ContentChild when parent needs to either control, reset, validate, or synchronize child components directly — like resetting forms, expanding accordions, or reading values from child components."*
+
+---
+
+# ⚡ **Pro Interview Tip**
+
+If interviewer asks *"Why would you use ViewChild?"* —
+Never say "to access child" only.
+Say:
+
+> *"When parent has to control or coordinate child component’s behavior or state (like reset, validate, toggle), ViewChild helps directly access child methods or properties."*
+
+---
