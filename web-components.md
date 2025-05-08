@@ -1,5 +1,6 @@
 
-### 📝 **Simple definition**
+### 📝 **Simple definition** [link](https://angular.dev/guide/elements)
+
 
 > **Web Components** are a set of **browser-native APIs** that let you create **reusable, encapsulated UI elements** that work **in any framework** (Angular, React, Vue, plain HTML).
 > They are part of **W3C standards**, not specific to Angular.
