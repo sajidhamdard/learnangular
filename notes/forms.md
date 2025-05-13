@@ -388,3 +388,74 @@ form = new FormGroup({
   * Custom validation
   * Better testability
   * Better control over form state and logic
+
+---
+
+## ✅ What does `nonNullable` mean in `FormBuilder.nonNullable`?
+
+### 🔍 Background
+
+In Angular **14 and above**, Reactive Forms got **type-safe** support. That means:
+
+* You can define **exact types** of form controls
+* You can enforce that a form control **never becomes `null`**
+
+---
+
+## 🚫 The Problem Before (Angular 11–13):
+
+When you write this:
+
+```ts
+this.form = this.fb.group({
+  username: ['']
+});
+```
+
+Angular internally assumes:
+
+```ts
+FormControl<string | null>
+```
+
+So even if you gave it a string, Angular thinks this field **can be `null`**, and you have to write checks like:
+
+```ts
+this.form.get('username')?.value ?? ''
+```
+
+This leads to **null-safety issues**.
+
+---
+
+## ✅ Angular 14+ `nonNullable.group`
+
+When you use:
+
+```ts
+this.form = this.fb.nonNullable.group({
+  username: ['']
+});
+```
+
+Angular now understands that:
+
+```ts
+FormControl<string>  // not string | null
+```
+
+✅ No more null-checks
+✅ Type-safe values
+✅ Better autocompletion in TypeScript
+
+---
+
+## 🔒 TL;DR
+
+| Without `nonNullable`         | With `nonNullable`    |
+| ----------------------------- | --------------------- |
+| `FormControl<string \| null>` | `FormControl<string>` |
+| Requires null checks          | Safer, cleaner code   |
+| Available in Angular < 14     | ✅ Only in Angular 14+ |
+
+---
