@@ -476,3 +476,96 @@ if (route.data?.['preload'] && navigator.connection?.effectiveType === '4g') {
 
 > **Custom Preloading Strategy** lets you **fine-tune performance** —
 > preload **only what makes sense**, not blindly everything.
+
+
+In **Angular 14+**, **lazy loading** has been simplified and modernized with **standalone components** and **functional routing APIs**. Here's a complete breakdown of how **lazy loading** works in Angular 14 and later versions.
+
+---
+
+## ✅ Lazy Loading **Standalone Components** (Angular 14+)
+
+With **standalone components**, Angular 14+ allows you to lazy load **components directly** without wrapping them in a module.
+
+### 📁 Example Folder Structure
+
+```
+src/
+├── app/
+│   ├── app.routes.ts
+│   ├── home.component.ts
+│   └── about/
+│       └── about.component.ts
+```
+
+---
+
+### ✅ Step 1: Create a Standalone Component
+
+```ts
+// about/about.component.ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-about',
+  standalone: true,
+  imports: [CommonModule],
+  template: `<h2>About Works!</h2>`,
+})
+export class AboutComponent {}
+```
+
+---
+
+### ✅ Step 2: Configure Lazy Loading in Routes
+
+```ts
+// app.routes.ts (Angular 14+ supports functional route configuration)
+import { Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('./about/about.component').then((m) => m.AboutComponent),
+  },
+];
+```
+
+---
+
+### ✅ Step 3: Add Routes to the App
+
+```ts
+// main.ts
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { provideRouter } from '@angular/router';
+import { routes } from './app/app.routes';
+
+bootstrapApplication(AppComponent, {
+  providers: [provideRouter(routes)],
+});
+```
+
+---
+
+### ✅ Advantages in Angular 14+
+
+* No need to create `NgModule` files.
+* Reduces boilerplate.
+* Tree-shakable and optimized by Angular CLI.
+* Better performance for large apps.
+
+---
+
+## 🧠 Key Notes
+
+* You can use `loadComponent` only with **standalone components**.
+* Don't forget to use `standalone: true` in your component definition.
+* You can lazy load both **components** and **modules** depending on your use case.
