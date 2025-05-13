@@ -459,3 +459,70 @@ FormControl<string>  // not string | null
 | Available in Angular < 14     | ✅ Only in Angular 14+ |
 
 ---
+
+## ✅ 1. Module Import
+
+| Form Type       | Module to Import      |
+| --------------- | --------------------- |
+| Template-Driven | `FormsModule`         |
+| Reactive Form   | `ReactiveFormsModule` |
+
+---
+
+## ✅ 2. Form Creation
+
+### 🔹 Template-Driven
+
+* Form is defined in **HTML template**
+* Use `[(ngModel)]` for binding
+
+```html
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <input name="username" [(ngModel)]="user.username" required>
+</form>
+```
+
+### 🔹 Reactive
+
+* Form is defined in **TypeScript component**
+* Use `formGroup`, `formControlName` in HTML
+
+```ts
+form = new FormGroup({
+  username: new FormControl('', Validators.required)
+});
+```
+
+```html
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input formControlName="username">
+</form>
+```
+
+---
+
+## ✅ 3. Validation
+
+### 🔹 Template-Driven
+
+```html
+<input name="email" [(ngModel)]="user.email" required email>
+```
+
+### 🔹 Reactive
+
+```ts
+email: new FormControl('', [Validators.required, Validators.email])
+```
+
+---
+
+## ✅ Summary Table
+
+| Feature             | Template-Driven              | Reactive Form                 |
+| ------------------- | ---------------------------- | ----------------------------- |
+| Module Import       | `FormsModule`                | `ReactiveFormsModule`         |
+| Form Defined In     | Template (HTML)              | Component (TypeScript)        |
+| Binding Syntax      | `[(ngModel)]`                | `formControlName`             |
+| Form Object Access  | Template ref (`#f="ngForm"`) | Class property (`this.form`)  |
+| Validation Handling | HTML directives              | Component code (`Validators`) |
