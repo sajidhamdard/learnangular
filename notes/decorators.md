@@ -1,7 +1,3 @@
-You're actually on the right track — but in interviews, they expect **more depth** and a little more **precision**. Let’s clean up and **level up** your answer so next time they are satisfied.
-
----
-
 ### **What is a Decorator in Angular?**
 
 A **decorator** is a **function** that adds **metadata** to a class, method, property, or parameter, telling Angular **how to process** that element.
