@@ -1,8 +1,3 @@
-Excellent — now you’re entering the **“dynamic component rendering”** topic — another **favorite** of interviewers when they want to see if you understand advanced Angular patterns.
-Let’s make this **crystal clear** (with real examples and reasons — not boring definitions).
-
----
-
 # 🧐 **What is "Programmatic Rendering of Components"?**
 
 Normally in Angular, we do this:
